@@ -1,0 +1,10 @@
+## Interface: 30100
+## Title: cargBags_|cfe87b23fSmee|r
+## Author: Airtonix
+## Version: r1
+## X-eMail:
+## Notes: Layout for cargBags
+## RequiredDeps: cargBags, cargBags_Anywhere
+## OptionalDeps: SaleRack
+
+layout.lua
