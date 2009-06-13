@@ -423,7 +423,7 @@ local func = function(settings, self, name)
 	local backdrop = CreateFrame("Frame",nil,self)
 	backdrop:SetBackdrop{ 
 		bgFile = "Interface\\Tooltips\\UI-Tooltip-Background",
-		edgeFile = "Interface\\AddOns\\cargBags_Gnomed\\Media\\UI-Tooltip-Border", 
+		edgeFile = "Interface\\AddOns\\cargBags_Smee\\Media\\UI-Tooltip-Border", 
 		tile = true, 
 		tileSize = 8, 
 		edgeSize =16, 
@@ -439,37 +439,8 @@ local func = function(settings, self, name)
 end
 
 -- Register the style with cargBags
-cargBags:RegisterStyle("Gnomed", setmetatable({}, {__call = func}))
+cargBags:RegisterStyle("Smee", setmetatable({}, {__call = func}))
 
-
-
-local	ttScanner = CreateFrame("GameTooltip","cargBagsTooltipScanner");
-			ttScanner:SetOwner( WorldFrame, "ANCHOR_NONE" );
-addon.scanningTooltip = ttScanner;
-
-function addon:ScanTooltipText(item,line,regex)
-	local	tt = self.scanningTooltip
-				tt:ClearLines()
-				tt:AddFontStrings(
-					tt:CreateFontString( "$parentTextLeft1", nil, "GameTooltipText" ),
-					tt:CreateFontString( "$parentTextRight1", nil, "GameTooltipText" )
-				);
-				tt:SetBagItem(item.bagID, item.slotID);
-				
-				local obj = nil
-				local match = false
-				local lineCount = tt:NumLines()
-				
-				if(line < lineCount)then
-					obj = getglobal("cargBagsTooltipScannerTextLeft"..line)
-					if(obj)then
-						if(match==false)then
-							match = obj:GetText():gmatch(regex)();
-						end
-					end
-				end
-				return match
-end
 
 local INVERTED = -1 -- with inverted filters (using -1), everything goes into this bag when the filter returns false
 
@@ -500,10 +471,8 @@ local onlyArmor = function(item) return item.type and (item.equipLoc~='' or item
 local onlyWeapon = function(item) return item.type and (item.equipLoc~='' or item.type == L.Weapon) end
 
 local filterGear = function(item) 
---	if(addon:ScanTooltipText(item,2,"Soulbound"))then
 	if(onlyToys(item))then return false end
 	return (onlyWeapon(item) or onlyArmor(item)) and addon:ItemIsPartOfSet(item)
---	end
 end 
 local filterLegendary = function(item) return item.rarity and item.rarity == 4 end
 local filterEpic = function(item) return item.rarity and item.rarity == 3 end
